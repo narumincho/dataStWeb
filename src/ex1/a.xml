@@ -1,0 +1,21 @@
+<dladsheim>
+    <definy>
+        <specification>
+            <def>
+                <name></name>
+                <type>
+                    <int description="整数"/>
+                </type>
+                <expr>
+                    <term>
+                    </term>
+                    <operator>
+                        <plus text="+" />
+                        <minus text="-" />
+                        <mul text="*" />
+                    </operator>
+                </expr>
+            </def>
+        </specification>
+    </definy>
+</dladsheim>
