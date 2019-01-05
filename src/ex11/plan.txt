@@ -1,5 +1,5 @@
-データ記述とWebサービス 課題11 17FI082 鳴海秀人
-2018年12月4日
+データ記述とWebサービス 課題12 17FI082 鳴海秀人
+2018年12月11日
 
 1. プログラムの概要
 http://www.itmedia.co.jp/info/rss/news.html に書いてあるITmedia NEWSのRSSフィードまたはそのlinkのURLから取得したHTMLから
