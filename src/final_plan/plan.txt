@@ -1,0 +1,17 @@
+データ記述とWebサービス 課題10 17FI082 鳴海秀人
+
+1. プログラムの概要
+http://www.itmedia.co.jp/info/rss/news.html に書いてあるITmedia NEWSのRSSフィードまたはそのlinkのURLから取得したHTMLから
+価格(～円)が記述されたものの記事を取り出し、その価格順に並べてそこに紹介記事の説明も並べる。
+
+
+2. 利用するリソースのリスト
+名前: ITmedia NEWSのRSSフィード 製品動向
+説明: IT関連製品の最新記事一覧
+URL: https://rss.itmedia.co.jp/rss/2.0/news_products.xml
+形式: RSS2.0
+
+名前: ITmediaの記事
+説明: 上のフィードの中にあるlinkのURLから取得した記事
+URL: http://www.itmedia.co.jp/news/articles/?/?/?.html
+形式: HTML 4.01

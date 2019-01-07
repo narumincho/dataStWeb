@@ -1,0 +1,75 @@
+ITmediaのIT関連製品の最新記事一覧の記事で書かれている価格を並び替えて取得する
+
+17FI082 鳴海秀人
+
+1. はじめに
+Webはとても便利。いろいろな情報を得たり渡したり計算できたりする。その中で私の興味のあるITmediaの記事から、いろいろな価格を取得してその価格順に並べて表示してみたいと思ったので表示しました
+
+
+2. XML/Feed/Webサービスに関する基礎
+XMLは構造化されたデータを記述するためのフォーマットの1つである。
+- 木構造にできるのが1つのメインのデータしかない
+- 閉じタグで要素名を書かなけらばならない
+などの欠点からWebの標準言語で直接読み書きできるJSONに置き換わりつつある
+
+Feedは記事のデータを統一的に配信するためのフォーマットだったが、バージョン間の差やサイトによってバラバラな実装がされがちなせいでそこまで普及せず、配信するサイトはあまりない。2018年12月にリリースされたFirefox64からFeedのサポート機能は削除されている。Chromeは元からない
+
+
+3. プログラムの設計と実装
+3.1 実現した機能
+    ITmediaのIT関連製品の最新記事一覧の記事で書かれている価格を並び替えて取得する。安い価格から高い価格の順に表示。日本語円で,区切りと億万千の表記に対応。HTMLをパースするのにjsoup(https://jsoup.org/)を使っている。
+
+3.2 システムが利用するリソース
+    名前: ITmedia NEWSのRSSフィード 製品動向
+    説明: IT関連製品の最新記事一覧
+    URL: http://rss.itmedia.co.jp/rss/2.0/news_products.xml
+    形式: RSS2.0
+
+    名前: ITmediaの記事
+    説明: 上のフィードの中にあるlinkのURLから取得した記事
+    URL: http://www.itmedia.co.jp/news/articles/?/?/?.html
+    形式: HTML 4.01
+
+3.3 プログラムの構成
+
+static public void main(String[] args)
+でメインの処理を記述する
+
+private static int parseInt(String text)
+で千万億の入った金額をintに変換する
+
+static private org.w3c.dom.Document getXmlDocumentFromUrl(URL url)
+でITmediaのRSSをXMLのDocumentに変換する
+
+class PriceWithParagraphAndArticle implements Comparable<PriceWithParagraphAndArticle>
+は価格、段落、記事のタイトル、記事の概要、記事のURLを格納するクラスで価格で比較可能
+
+
+3.4 データ構造とアルゴリズム
+PriceWithParagraphAndArticleで価格、段落、記事のタイトル、記事の概要、記事のURLをまとめた。
+compareToで1対1の比較を定義すればCollections.sortをすることができるのでソートのアルゴリズム自体は書かなく良い
+
+
+3.5 その他の工夫点
+機能をstaticメソッドに分けたり、変数名、メソッド名等を分かりやすくした
+
+4. 評価・考察
+4.1 機能
+実現した機能は適切だった。
+考えられる改良は海外のお金(アメリカドルなど)に対応すること
+
+4.2 実現方法
+プログラムの構造、用いたデータ構造、アルゴリズムは適切だった。効率も悪くない
+
+4.3 その他
+jsoupはJsoup.connect(link).get()という記述だけで、DOMを構成できるのに、標準のXMLパーサーは数行に渡るコードを書かないといけないのは不便だ
+
+
+5. おわりに
+感想
+RSSは比較的単純な構造で解析するものとしては便利だが、配信する側にとっては不要と判断しがちでRSSの目標としては失敗している。
+HTML5によってHTMLはシンプルな構造になったので、配信する側がシンプルなHTML5で配信さえすれば、別途RSSを用意しなくても良くなり、HTMLをjavaで解析しやすくなり、ブラウザで見る人からも読み込み時間短縮など良いこと盛りだくさん。それとSHIFT-JISはWeb標準ではないのでレポートの提出をUTF-8で許可してほしい
+
+参考
+FirefoxがRSSおよびAtomのサポートを打ち切り、フィード機能はアドオン経由で提供されることに
+https://gigazine.net/news/20181015-firefox-removes-rss-atom-feeds/
